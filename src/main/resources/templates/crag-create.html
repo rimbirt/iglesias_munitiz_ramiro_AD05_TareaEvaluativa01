@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Crear escuela')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2>Añadir nueva escuela</h2>
+  <form action="#" th:action="@{/crag/create}" th:object="${crag}" method="post">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" th:field="*{name}">
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+  </form>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

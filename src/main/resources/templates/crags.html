@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Escuelas')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+    <h2>Escuelas de escalada
+        <a style="color: green" href="/crag/create" role="button">
+            <small><i class="bi bi-plus-circle"></i></small>
+        </a>
+    </h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Número de vías</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="crag : ${crags}">
+            <td th:text="${crag.name}"></td>
+            <td th:text="${crag.routeNumber}"></td>
+            <td class="d-flex justify-content-end">
+                <a role="button" th:href="@{/crag/{id}(id=${crag.id})}" class="btn btn-success btn-sm me-1"><i class="bi bi-eye"></i></a>
+                <a role="button" th:href="@{/crag/{id}/edit(id=${crag.id})}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pencil"></i></a>
+                <form th:action="@{/crag/{id}(id=${crag.id})}" th:method="delete" th:id="'delete' + ${cragStat.index}">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                            th:data-bs-target="'#deleteModal' + ${cragStat.index}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+                <!-- Modal -->
+                <div th:replace="fragments/delete-modal :: delete-modal(title='Borrar escuela', message='¿Está seguro de querer borrar la escuela?', id='deleteModal' + ${cragStat.index}, form='delete' + ${cragStat.index})"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Editar escuela')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2 th:text="${climber.name}"></h2>
+  <div class="card mb-3 shadow-sm border-light">
+    <div class="card-body">
+      <div><strong>Número de ascensiones:&nbsp;</strong><span th:text="${ascends.size()}"></span></div>
+    </div>
+  </div>
+  <h3>Ascensiones:</h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Vía</th>
+      <th>Escuela</th>
+      <th>Grado propuesto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ascend : ${ascends}">
+      <td th:text="${ascend.getRoute().name}"></td>
+      <td th:text="${ascend.getRoute().getCrag().name}"></td>
+      <td th:text="${ascend.getGrade().getViewName()}"></td>
+      <td class="d-flex justify-content-end">
+        <a role="button"
+           th:href="@{/route/{routeId}/climber/{climberId}/edit(routeId=${ascend.getRoute().id}, climberId=${ascend.getClimber().id})}"
+           class="btn btn-warning btn-sm me-1"><i class="bi bi-pencil"></i></a>
+        <form th:action="@{/route/{id}/climber/{climberId}(id=${ascend.getRoute().id}, climberId=${ascend.getClimber().getId()})}"
+              th:method="delete" th:id="'delete' + ${ascendStat.index}">
+          <input type="hidden" name="_method" value="delete">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                  th:data-bs-target="'#deleteModal' + ${ascendStat.index}">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+        <!-- Modal -->
+        <div
+            th:replace="fragments/delete-modal :: delete-modal(title='Borrar ascensión', message='¿Está seguro de querer borrar la ascensión?', id='deleteModal' + ${ascendStat.index}, form='delete' + ${ascendStat.index})"></div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

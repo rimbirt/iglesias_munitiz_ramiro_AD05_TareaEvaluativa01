@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Escuela')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2 th:text="${crag.name}"></h2>
+  <h3>Vías:
+    <a style="color: green" th:href="@{/crag/{cragId}/route/create(cragId=${crag.id})}" role="button">
+      <small><i class="bi bi-plus-circle"></i></small>
+    </a>
+  </h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Grado propuesto</th>
+      <th>Grado consenso</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="route : ${routes}">
+      <td th:text="${route.name}"></td>
+      <td th:text="${route.getBaseGrade().getViewName()}"></td>
+      <td th:text="${route.getConsensusGrade().getViewName()}"></td>
+      <td class="d-flex justify-content-end">
+        <a role="button" th:href="@{/route/{id}(id=${route.id})}" class="btn btn-success btn-sm me-1"><i class="bi bi-eye"></i></a>
+        <a role="button" th:href="@{/crag/{cragId}/route/{id}/edit(cragId=${crag.id}, id=${route.id})}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pencil"></i></a>
+        <form th:action="@{/route/{id}(id=${route.id})}" th:method="delete" th:id="'delete' + ${routeStat.index}">
+          <input type="hidden" name="_method" value="delete">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                  th:data-bs-target="'#deleteModal' + ${routeStat.index}">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+        <!-- Modal -->
+        <div th:replace="fragments/delete-modal :: delete-modal(title='Borrar vía', message='¿Está seguro de querer borrar la vía?', id='deleteModal' + ${routeStat.index}, form='delete' + ${routeStat.index})"></div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

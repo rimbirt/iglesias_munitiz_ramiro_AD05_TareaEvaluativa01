@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Añadir ascensión')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2>Editar ascensión</h2>
+  <form action="#" th:action="@{/route/{id}/ascend/edit(id=${ascend.getRoute().id})}" th:object="${ascend}" th:method="put">
+    <div class="mb-3">
+      <label for="route" class="form-label">Nombre</label>
+      <select class="form-select" id="route" disabled>
+        <option th:text="${ascend.getRoute().name}"></option>
+      </select>
+      <input hidden th:value="${ascend.getRoute().id}" th:field="*{route.id}">
+    </div>
+    <div class="mb-3">
+      <label for="climber" class="form-label">Escalador</label>
+      <select class="form-select" id="climber" disabled>
+        <option th:text="${ascend.getClimber().name}"></option>
+      </select>
+      <input hidden th:value="${ascend.getClimber().id}" th:field="*{climber.id}">
+    </div>
+    <div class="mb-3">
+      <label for="proposedGrade" class="form-label">Grado</label>
+      <select class="form-select" id="proposedGrade" th:field="*{grade}">
+        <option th:each="grade: ${grades}" th:value="${grade}" th:text="${grade.getViewName()}"></option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

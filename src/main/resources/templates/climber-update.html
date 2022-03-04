@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Editar escalador')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2>Editar escalador</h2>
+  <form action="#" th:action="@{/climber/{id}/edit (id = ${climber.id})}" th:object="${climber}" th:method="put">
+    <input th:field="*{id}" hidden th:value="*{id}">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" th:field="*{name}">
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Apellidos</label>
+      <input type="text" class="form-control" id="lastName" th:field="*{lastName}">
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

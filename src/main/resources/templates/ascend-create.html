@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Añadir ascensión')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2>Añadir nueva ascensión</h2>
+  <form action="#" th:action="@{/route/{id}/ascend/create(id=${routeId})}" th:object="${ascend}" method="post">
+    <input hidden th:value="${routeId}" name="route.id"/>
+    <div class="mb-3">
+      <label for="climber" class="form-label">Escalador</label>
+      <select class="form-select" id="climber" th:field="*{climber.id}">
+        <option th:each="climber: ${climbers}" th:value="${climber.id}" th:text="${climber.getName()}"></option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="proposedGrade" class="form-label">Grado</label>
+      <select class="form-select" id="proposedGrade" th:field="*{grade}">
+        <option th:each="grade: ${grades}" th:value="${grade}" th:text="${grade.getViewName()}"></option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+  </form>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>

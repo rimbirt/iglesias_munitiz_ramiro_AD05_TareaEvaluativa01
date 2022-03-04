@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/main :: head(title='Escaladores')"></div>
+<body>
+<header th:replace="fragments/main :: header"></header>
+
+<article class="container">
+  <h2>
+    Escaladores
+    <a style="color: green" href="/climber/create" role="button">
+      <small><i class="bi bi-plus-circle"></i></small>
+    </a>
+  </h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Ascensiones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="climber : ${climbers}">
+      <td th:text="${climber.name}"></td>
+      <td th:text="${climber.lastName}"></td>
+      <td th:text="${climber.ascendNumber}"></td>
+      <td class="d-flex justify-content-end">
+        <a role="button" th:href="@{/climber/{id}(id=${climber.id})}" class="btn btn-success btn-sm me-1"><i class="bi bi-eye"></i></a>
+        <a role="button" th:href="@{/climber/{id}/edit(id=${climber.id})}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pencil"></i></a>
+        <form th:action="@{/climber/{id}(id=${climber.id})}" th:method="delete" th:id="'delete' + ${climberStat.index}">
+          <input type="hidden" name="_method" value="delete">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                  th:data-bs-target="'#deleteModal' + ${climberStat.index}">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+        <!-- Modal -->
+        <div th:replace="fragments/delete-modal :: delete-modal(title='Borrar escalador', message='¿Está seguro de querer borrar el escalador?', id='deleteModal' + ${climberStat.index}, form='delete' + ${climberStat.index})"></div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</article>
+
+<footer th:replace="fragments/main :: footer"></footer>
+
+</body>
+</html>
